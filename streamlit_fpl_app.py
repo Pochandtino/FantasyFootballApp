@@ -2,20 +2,22 @@ import streamlit as st
 import pandas as pd
 import json
 import os
+import glob
 
-# Load JSON data
+# Load latest JSON file dynamically
 DATA_PATH = "data/"
 
-def load_json(filename):
-    filepath = os.path.join(DATA_PATH, filename)
-    if os.path.exists(filepath):
-        with open(filepath, "r") as f:
+def get_latest_json(filename_prefix):
+    files = glob.glob(os.path.join(DATA_PATH, f"{filename_prefix}_*.json"))
+    if files:
+        latest_file = max(files, key=os.path.getctime)  # Get the newest file
+        with open(latest_file, "r") as f:
             return json.load(f)
     return None
 
 # Load data files
-league_standings = load_json("league_standings_latest.json")
-fixtures = load_json("fixtures.json")
+league_standings = get_latest_json("league_standings")
+team_stats = get_latest_json("team_stats")
 
 # Streamlit UI
 st.title("🏆 Fantasy Premier League Tournament")
@@ -28,8 +30,17 @@ if league_standings:
 else:
     st.warning("League standings data not found.")
 
+# Display Team Stats (if needed for additional insights)
+st.header("📈 Team Stats")
+if team_stats:
+    df_team_stats = pd.DataFrame(team_stats)
+    st.dataframe(df_team_stats)
+else:
+    st.warning("Team stats data not found.")
+
 # Display Fixtures
 st.header("📅 Fixture Schedule")
+fixtures = get_latest_json("fixtures")
 if fixtures:
     df_fixtures = pd.DataFrame(fixtures)
     gameweek_filter = st.selectbox("Select Gameweek:", sorted(df_fixtures["Gameweek"].unique()))
