@@ -1,6 +1,7 @@
 import requests
 import pandas as pd
 import json
+import os
 from datetime import datetime
 
 # Define the league ID
@@ -9,6 +10,9 @@ LEAGUE_ID = 857  # Update if needed
 # API endpoints
 LEAGUE_API_URL = f"https://fantasy.premierleague.com/api/leagues-classic/{LEAGUE_ID}/standings/"
 TEAM_API_URL = "https://fantasy.premierleague.com/api/entry/{}/history/"
+
+# Ensure the 'data' directory exists
+os.makedirs("data", exist_ok=True)
 
 # Fetch league standings
 def fetch_league_standings():
