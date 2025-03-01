@@ -42,15 +42,15 @@ standings = load_latest_standings()
 if standings:
     teams = [team['Team Name'] for team in standings]
     
-    # Define gameweeks for scheduling (Modify if needed)
-    selected_gameweeks = [5, 7, 9, 11, 13, 15]  # Customizable
+    # Define gameweeks for scheduling
+    default_gameweeks = [5, 7, 9, 11, 13, 15]
     
     # Generate fixtures
-    fixtures = generate_fixtures(teams, selected_gameweeks)
+    fixtures = generate_fixtures(teams, default_gameweeks)
     
     # Save fixtures to JSON
     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     fixtures_filepath = f"data/fixtures_{timestamp}.json"
     with open(fixtures_filepath, "w") as f:
         json.dump(fixtures, f, indent=4)
-    print(f"✅ Fixtures generated and saved to {fixtures_filepath}")
+    print(f"Fixtures generated and saved to {fixtures_filepath}")
