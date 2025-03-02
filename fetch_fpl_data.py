@@ -6,8 +6,14 @@ from datetime import datetime
 
 # Fetch FPL Data Script
 
-# Define the league ID
-LEAGUE_ID = 857  # Update if needed
+# Load league ID from config file
+CONFIG_FILE = "data/config.json"
+if os.path.exists(CONFIG_FILE):
+    with open(CONFIG_FILE, "r") as f:
+        config = json.load(f)
+    LEAGUE_ID = config.get("league_id", "857")
+else:
+    LEAGUE_ID = "857"  # Default league ID if no config file is found
 
 # API endpoints
 LEAGUE_API_URL = f"https://fantasy.premierleague.com/api/leagues-classic/{LEAGUE_ID}/standings/"
