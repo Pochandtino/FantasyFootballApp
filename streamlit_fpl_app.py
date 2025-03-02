@@ -23,6 +23,10 @@ def get_latest_json(filename_prefix):
     else:
         return None
 
+# User Input for League ID
+st.sidebar.header("⚙️ Settings")
+league_id = st.sidebar.text_input("Enter League ID", "857")
+
 # Load data files
 league_standings = get_latest_json("league_standings")
 team_stats = get_latest_json("team_stats")
@@ -74,7 +78,7 @@ if st.button("Update Fixtures"):
             subprocess.run(["pip", "install", "pandas"], check=True)
             
             # Run fixture scheduling
-            result = subprocess.run(["python", "fixture_scheduling.py"], capture_output=True, text=True, check=True)
+            result = subprocess.run(["python", "fixture_scheduling.py", league_id], capture_output=True, text=True, check=True)
             st.success("Fixtures successfully updated! Reload the page to see changes.")
         except subprocess.CalledProcessError as e:
             st.error(f"Error generating fixtures: {e.output}\n{e.stderr}")
