@@ -22,6 +22,12 @@ def load_latest_standings():
         print("Error: League standings data not found.")
         return None
 
+# Check if a fixture file for today already exists
+def fixture_already_generated():
+    today = datetime.now().strftime("%Y-%m-%d")
+    files = [f for f in os.listdir("data/") if f.startswith(f"fixtures_{today}") and f.endswith(".json")]
+    return len(files) > 0
+
 # Generate round-robin fixtures
 def generate_fixtures(teams, gameweeks):
     fixtures = []
@@ -37,20 +43,24 @@ def generate_fixtures(teams, gameweeks):
     
     return fixtures
 
-# Load standings and extract teams
-standings = load_latest_standings()
-if standings:
-    teams = [team['Team Name'] for team in standings]
-    
-    # Define gameweeks for scheduling
-    default_gameweeks = [5, 7, 9, 11, 13, 15]
-    
-    # Generate fixtures
-    fixtures = generate_fixtures(teams, default_gameweeks)
-    
-    # Save fixtures to JSON
-    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    fixtures_filepath = f"data/fixtures_{timestamp}.json"
-    with open(fixtures_filepath, "w") as f:
-        json.dump(fixtures, f, indent=4)
-    print(f"Fixtures generated and saved to {fixtures_filepath}")
+# Run fixture generation only if necessary
+if not fixture_already_generated():
+    standings = load_latest_standings()
+    if standings:
+        teams = [team['Team Name'] for team in standings]
+        
+        # Define gameweeks for scheduling (Modify if needed)
+        selected_gameweeks = [5, 7, 9, 11, 13, 15]  # Customizable
+        
+        # Generate fixtures
+        fixtures = generate_fixtures(teams, selected_gameweeks)
+        
+        # Save fixtures to JSON
+        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        fixtures_filepath = f"data/fixtures_{timestamp}.json"
+        with open(fixtures_filepath, "w") as f:
+            json.dump(fixtures, f, indent=4)
+        print(f"✅ Fixtures generated and saved to {fixtures_filepath}")
+else:
+    print("✅ Fixture file for today already exists. Skipping generation.")
+
