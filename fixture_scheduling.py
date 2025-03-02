@@ -1,67 +1,60 @@
-import itertools
-import json
+import requests
 import pandas as pd
+import json
 import os
 from datetime import datetime
+import sys
 
 # Fixture Scheduling Script
+
+# Load league ID from config file
+CONFIG_FILE = "data/config.json"
+if os.path.exists(CONFIG_FILE):
+    with open(CONFIG_FILE, "r") as f:
+        config = json.load(f)
+    LEAGUE_ID = config.get("league_id", "857")
+else:
+    LEAGUE_ID = "857"  # Default league ID if no config file is found
+
+# API endpoints
+LEAGUE_API_URL = f"https://fantasy.premierleague.com/api/leagues-classic/{LEAGUE_ID}/standings/"
 
 # Ensure the 'data' directory exists
 os.makedirs("data", exist_ok=True)
 
-# Load latest league standings JSON dynamically
-def load_latest_standings():
-    files = sorted(
-        [f for f in os.listdir("data/") if f.startswith("league_standings_") and f.endswith(".json")],
-        key=lambda x: os.path.getctime(os.path.join("data/", x)),
-        reverse=True
-    )
-    if files:
-        latest_file = os.path.join("data/", files[0])
-        with open(latest_file, "r") as f:
-            return json.load(f)
+# Fetch league standings
+def fetch_league_standings():
+    response = requests.get(LEAGUE_API_URL)
+    
+    if response.status_code == 200:
+        data = response.json()
+        teams = []
+        
+        for entry in data['standings']['results']:
+            teams.append({
+                'Rank': entry['rank'],
+                'Team Name': entry['entry_name'],
+                'Manager': entry['player_name'],
+                'Total Points': entry['total'],
+                'FPL Team ID': entry['entry']  # Needed for individual stats
+            })
+        
+        df = pd.DataFrame(teams)
+        return df
     else:
-        print("Error: League standings data not found.")
+        print("Error fetching league standings:", response.status_code)
         return None
 
-# Check if a fixture file for today already exists
-def fixture_already_generated():
-    today = datetime.now().strftime("%Y-%m-%d")
-    files = [f for f in os.listdir("data/") if f.startswith(f"fixtures_{today}") and f.endswith(".json")]
-    return len(files) > 0
+# Save data to JSON
+def save_to_json(data, filename):
+    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    filepath = f"data/{filename}_{timestamp}.json"
+    with open(filepath, 'w') as f:
+        json.dump(data, f, indent=4)
+    print(f"Saved data to {filepath}")
 
-# Generate round-robin fixtures
-def generate_fixtures(teams, gameweeks):
-    fixtures = []
-    matchups = list(itertools.combinations(teams, 2))  # All possible matchups
-    
-    for i, (home, away) in enumerate(matchups):
-        gameweek = gameweeks[i % len(gameweeks)]  # Rotate through selected gameweeks
-        fixtures.append({
-            "Gameweek": gameweek,
-            "Home": home,
-            "Away": away
-        })
-    
-    return fixtures
-
-# Run fixture generation only if necessary
-if not fixture_already_generated():
-    standings = load_latest_standings()
-    if standings:
-        teams = [team['Team Name'] for team in standings]
-        
-        # Define gameweeks for scheduling (Modify if needed)
-        selected_gameweeks = [5, 7, 9, 11, 13, 15]  # Customizable
-        
-        # Generate fixtures
-        fixtures = generate_fixtures(teams, selected_gameweeks)
-        
-        # Save fixtures to JSON
-        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        fixtures_filepath = f"data/fixtures_{timestamp}.json"
-        with open(fixtures_filepath, "w") as f:
-            json.dump(fixtures, f, indent=4)
-        print(f"✅ Fixtures generated and saved to {fixtures_filepath}")
-else:
-    print("✅ Fixture file for today already exists. Skipping generation.")
+# Run functions
+league_standings_df = fetch_league_standings()
+if league_standings_df is not None:
+    print(league_standings_df.head())
+    save_to_json(league_standings_df.to_dict(orient='records'), "league_standings")
