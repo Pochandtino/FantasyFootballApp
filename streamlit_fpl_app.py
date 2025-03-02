@@ -70,7 +70,7 @@ selected_gameweeks = st.multiselect("Select gameweeks for fixture scheduling:", 
 if st.button("Update Fixtures"):
     with st.spinner("Generating Fixtures..."):
         try:
-            subprocess.run(["python", "fixture_scheduling.py"], check=True)
+            result = subprocess.run(["python", "fixture_scheduling.py"], capture_output=True, text=True, check=True)
             st.success("Fixtures successfully updated! Reload the page to see changes.")
-        except Exception as e:
-            st.error(f"Error generating fixtures: {e}")
+        except subprocess.CalledProcessError as e:
+            st.error(f"Error generating fixtures: {e.output}\n{e.stderr}")
