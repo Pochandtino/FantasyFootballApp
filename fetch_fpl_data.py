@@ -4,6 +4,8 @@ import json
 import os
 from datetime import datetime
 
+# Fetch FPL Data Script
+
 # Define the league ID
 LEAGUE_ID = 857  # Update if needed
 
@@ -43,12 +45,16 @@ def fetch_team_stats(team_id):
     
     if response.status_code == 200:
         data = response.json()
-        history = data['current']
+        history = data.get('current', [])
+        past_seasons = data.get('past', [])
+        
+        total_points = past_seasons[-1]['total_points'] if past_seasons else (history[-1]['total_points'] if history else 0)
+        
         team_data = {
             'Team ID': team_id,
-            'Total Points': data['past'][-1]['total_points'] if 'past' in data and data['past'] else 0,
-            'Gameweek Points': [gw['points'] for gw in history],
-            'Transfers': [gw['event_transfers'] for gw in history],
+            'Total Points': total_points,
+            'Gameweek Points': [gw['points'] for gw in history] if history else [],
+            'Transfers': [gw['event_transfers'] for gw in history] if history else [],
             'Chips Used': [gw['chips'] if 'chips' in gw else None for gw in history]
         }
         return team_data
