@@ -3,6 +3,7 @@ import pandas as pd
 import json
 import os
 import glob
+import subprocess
 
 # Streamlit FPL App
 
@@ -65,8 +66,11 @@ else:
 st.header("⚙️ Customize Fixture Gameweeks")
 default_gameweeks = [5, 7, 9, 11, 13, 15]
 selected_gameweeks = st.multiselect("Select gameweeks for fixture scheduling:", list(range(1, 39)), default=default_gameweeks)
+
 if st.button("Update Fixtures"):
-    if selected_gameweeks:
-        st.success(f"Fixtures will be generated using gameweeks: {selected_gameweeks}")
-    else:
-        st.error("Please select at least one gameweek.")
+    with st.spinner("Generating Fixtures..."):
+        try:
+            subprocess.run(["python", "fixture_scheduling.py"], check=True)
+            st.success("Fixtures successfully updated! Reload the page to see changes.")
+        except Exception as e:
+            st.error(f"Error generating fixtures: {e}")
