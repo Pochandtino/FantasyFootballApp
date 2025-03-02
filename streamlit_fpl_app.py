@@ -5,6 +5,9 @@ import os
 import glob
 import subprocess
 
+# Set page config FIRST
+st.set_page_config(page_title="Fantasy Premier League", layout="wide")
+
 # Streamlit FPL App
 
 # Load latest JSON file dynamically
@@ -39,8 +42,6 @@ league_standings = get_latest_json("league_standings")
 team_stats = get_latest_json("team_stats")
 fixtures = get_latest_json("fixtures")
 
-# Streamlit UI
-st.set_page_config(page_title="Fantasy Premier League", layout="wide")
 st.title("🏆 Fantasy Premier League Tournament")
 
 # Display League Standings
