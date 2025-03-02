@@ -70,6 +70,10 @@ selected_gameweeks = st.multiselect("Select gameweeks for fixture scheduling:", 
 if st.button("Update Fixtures"):
     with st.spinner("Generating Fixtures..."):
         try:
+            # Ensure required dependencies are installed
+            subprocess.run(["pip", "install", "pandas"], check=True)
+            
+            # Run fixture scheduling
             result = subprocess.run(["python", "fixture_scheduling.py"], capture_output=True, text=True, check=True)
             st.success("Fixtures successfully updated! Reload the page to see changes.")
         except subprocess.CalledProcessError as e:
