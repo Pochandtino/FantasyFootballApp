@@ -1,84 +1,60 @@
-import streamlit as st
+import requests
 import pandas as pd
 import json
 import os
-import glob
-import subprocess
+from datetime import datetime
+import sys
 
-# Streamlit FPL App
+# Fixture Scheduling Script
 
-# Load latest JSON file dynamically
-DATA_PATH = "data/"
+# Load league ID from config file
+CONFIG_FILE = "data/config.json"
+if os.path.exists(CONFIG_FILE):
+    with open(CONFIG_FILE, "r") as f:
+        config = json.load(f)
+    LEAGUE_ID = config.get("league_id", "857")
+else:
+    LEAGUE_ID = "857"  # Default league ID if no config file is found
 
-def get_latest_json(filename_prefix):
-    files = glob.glob(os.path.join(DATA_PATH, f"{filename_prefix}_*.json"))
-    if files:
-        latest_file = max(files, key=os.path.getctime)  # Get the newest file
-        try:
-            with open(latest_file, "r") as f:
-                return json.load(f)
-        except json.JSONDecodeError:
-            st.error(f"Error loading {latest_file}. The file might be corrupted.")
-            return None
+# API endpoints
+LEAGUE_API_URL = f"https://fantasy.premierleague.com/api/leagues-classic/{LEAGUE_ID}/standings/"
+
+# Ensure the 'data' directory exists
+os.makedirs("data", exist_ok=True)
+
+# Fetch league standings
+def fetch_league_standings():
+    response = requests.get(LEAGUE_API_URL)
+    
+    if response.status_code == 200:
+        data = response.json()
+        teams = []
+        
+        for entry in data['standings']['results']:
+            teams.append({
+                'Rank': entry['rank'],
+                'Team Name': entry['entry_name'],
+                'Manager': entry['player_name'],
+                'Total Points': entry['total'],
+                'FPL Team ID': entry['entry']  # Needed for individual stats
+            })
+        
+        df = pd.DataFrame(teams)
+        return df
     else:
+        print("Error fetching league standings:", response.status_code)
         return None
 
-# User Input for League ID
-st.sidebar.header("⚙️ Settings")
-league_id = st.sidebar.text_input("Enter League ID", "857")
+# Save data to JSON
+def save_to_json(data, filename):
+    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    filepath = f"data/{filename}_{timestamp}.json"
+    with open(filepath, 'w') as f:
+        json.dump(data, f, indent=4)
+    print(f"Saved data to {filepath}")
 
-# Load data files
-league_standings = get_latest_json("league_standings")
-team_stats = get_latest_json("team_stats")
-fixtures = get_latest_json("fixtures")
-
-# Streamlit UI
-st.set_page_config(page_title="Fantasy Premier League", layout="wide")
-st.title("🏆 Fantasy Premier League Tournament")
-
-# Display League Standings
-st.header("📊 League Standings")
-if league_standings:
-    df_standings = pd.DataFrame(league_standings)
-    df_standings = df_standings.sort_values(by=["Total Points"], ascending=False)  # Default sorting
-    st.dataframe(df_standings.style.format({"Total Points": "{:,}"}))
-else:
-    st.warning("League standings data not found. Please run the fetch script.")
-
-# Display Team Stats
-st.header("📈 Team Stats")
-if team_stats:
-    df_team_stats = pd.DataFrame(team_stats)
-    st.dataframe(df_team_stats.style.format({"Total Points": "{:,}"}))
-else:
-    st.warning("Team stats data not found. Please run the fetch script.")
-
-# Display Fixtures
-st.header("📅 Fixture Schedule")
-if fixtures:
-    df_fixtures = pd.DataFrame(fixtures)
-    if not df_fixtures.empty:
-        gameweek_filter = st.selectbox("Select Gameweek:", sorted(df_fixtures["Gameweek"].unique()), index=0)
-        filtered_fixtures = df_fixtures[df_fixtures["Gameweek"] == gameweek_filter]
-        st.dataframe(filtered_fixtures)
-    else:
-        st.warning("No fixtures generated. Run fixture scheduling script.")
-else:
-    st.warning("Fixture data not found. Please run fixture scheduling script.")
-
-# Custom Gameweek Selection for Fixtures
-st.header("⚙️ Customize Fixture Gameweeks")
-default_gameweeks = [5, 7, 9, 11, 13, 15]
-selected_gameweeks = st.multiselect("Select gameweeks for fixture scheduling:", list(range(1, 39)), default=default_gameweeks)
-
-if st.button("Update Fixtures"):
-    with st.spinner("Generating Fixtures..."):
-        try:
-            # Ensure required dependencies are installed
-            subprocess.run(["pip", "install", "pandas"], check=True)
-            
-            # Run fixture scheduling
-            result = subprocess.run(["python", "fixture_scheduling.py", league_id], capture_output=True, text=True, check=True)
-            st.success("Fixtures successfully updated! Reload the page to see changes.")
-        except subprocess.CalledProcessError as e:
-            st.error(f"Error generating fixtures: {e.output}\n{e.stderr}")
+# Run functions
+league_standings_df = fetch_league_standings()
+if league_standings_df is not None:
+    print(league_standings_df.head())
+    save_to_json(league_standings_df.to_dict(orient='records'), "league_standings")
