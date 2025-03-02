@@ -1,66 +1,72 @@
-import itertools
-import json
+import streamlit as st
 import pandas as pd
+import json
 import os
-from datetime import datetime
+import glob
 
-# Ensure the 'data' directory exists
-os.makedirs("data", exist_ok=True)
+# Streamlit FPL App
 
-# Load latest league standings JSON dynamically
-def load_latest_standings():
-    files = sorted(
-        [f for f in os.listdir("data/") if f.startswith("league_standings_") and f.endswith(".json")],
-        key=lambda x: os.path.getctime(os.path.join("data/", x)),
-        reverse=True
-    )
+# Load latest JSON file dynamically
+DATA_PATH = "data/"
+
+def get_latest_json(filename_prefix):
+    files = glob.glob(os.path.join(DATA_PATH, f"{filename_prefix}_*.json"))
     if files:
-        latest_file = os.path.join("data/", files[0])
-        with open(latest_file, "r") as f:
-            return json.load(f)
+        latest_file = max(files, key=os.path.getctime)  # Get the newest file
+        try:
+            with open(latest_file, "r") as f:
+                return json.load(f)
+        except json.JSONDecodeError:
+            st.error(f"Error loading {latest_file}. The file might be corrupted.")
+            return None
     else:
-        print("Error: League standings data not found.")
         return None
 
-# Check if a fixture file for today already exists
-def fixture_already_generated():
-    today = datetime.now().strftime("%Y-%m-%d")
-    files = [f for f in os.listdir("data/") if f.startswith(f"fixtures_{today}") and f.endswith(".json")]
-    return len(files) > 0
+# Load data files
+league_standings = get_latest_json("league_standings")
+team_stats = get_latest_json("team_stats")
+fixtures = get_latest_json("fixtures")
 
-# Generate round-robin fixtures
-def generate_fixtures(teams, gameweeks):
-    fixtures = []
-    matchups = list(itertools.combinations(teams, 2))  # All possible matchups
-    
-    for i, (home, away) in enumerate(matchups):
-        gameweek = gameweeks[i % len(gameweeks)]  # Rotate through selected gameweeks
-        fixtures.append({
-            "Gameweek": gameweek,
-            "Home": home,
-            "Away": away
-        })
-    
-    return fixtures
+# Streamlit UI
+st.set_page_config(page_title="Fantasy Premier League", layout="wide")
+st.title("🏆 Fantasy Premier League Tournament")
 
-# Run fixture generation only if necessary
-if not fixture_already_generated():
-    standings = load_latest_standings()
-    if standings:
-        teams = [team['Team Name'] for team in standings]
-        
-        # Define gameweeks for scheduling (Modify if needed)
-        selected_gameweeks = [5, 7, 9, 11, 13, 15]  # Customizable
-        
-        # Generate fixtures
-        fixtures = generate_fixtures(teams, selected_gameweeks)
-        
-        # Save fixtures to JSON
-        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        fixtures_filepath = f"data/fixtures_{timestamp}.json"
-        with open(fixtures_filepath, "w") as f:
-            json.dump(fixtures, f, indent=4)
-        print(f"✅ Fixtures generated and saved to {fixtures_filepath}")
+# Display League Standings
+st.header("📊 League Standings")
+if league_standings:
+    df_standings = pd.DataFrame(league_standings)
+    df_standings = df_standings.sort_values(by=["Total Points"], ascending=False)  # Default sorting
+    st.dataframe(df_standings.style.format({"Total Points": "{:,}"}))
 else:
-    print("✅ Fixture file for today already exists. Skipping generation.")
+    st.warning("League standings data not found. Please run the fetch script.")
 
+# Display Team Stats
+st.header("📈 Team Stats")
+if team_stats:
+    df_team_stats = pd.DataFrame(team_stats)
+    st.dataframe(df_team_stats.style.format({"Total Points": "{:,}"}))
+else:
+    st.warning("Team stats data not found. Please run the fetch script.")
+
+# Display Fixtures
+st.header("📅 Fixture Schedule")
+if fixtures:
+    df_fixtures = pd.DataFrame(fixtures)
+    if not df_fixtures.empty:
+        gameweek_filter = st.selectbox("Select Gameweek:", sorted(df_fixtures["Gameweek"].unique()), index=0)
+        filtered_fixtures = df_fixtures[df_fixtures["Gameweek"] == gameweek_filter]
+        st.dataframe(filtered_fixtures)
+    else:
+        st.warning("No fixtures generated. Run fixture scheduling script.")
+else:
+    st.warning("Fixture data not found. Please run fixture scheduling script.")
+
+# Custom Gameweek Selection for Fixtures
+st.header("⚙️ Customize Fixture Gameweeks")
+default_gameweeks = [5, 7, 9, 11, 13, 15]
+selected_gameweeks = st.multiselect("Select gameweeks for fixture scheduling:", list(range(1, 39)), default=default_gameweeks)
+if st.button("Update Fixtures"):
+    if selected_gameweeks:
+        st.success(f"Fixtures will be generated using gameweeks: {selected_gameweeks}")
+    else:
+        st.error("Please select at least one gameweek.")
