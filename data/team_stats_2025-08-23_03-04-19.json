@@ -1,0 +1,34 @@
+[
+    {
+        "Team ID": 3546,
+        "Total Points": 2437,
+        "Gameweek Points": [
+            67,
+            8
+        ],
+        "Transfers": [
+            0,
+            0
+        ],
+        "Chips Used": [
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 1427787,
+        "Total Points": 2057,
+        "Gameweek Points": [
+            50,
+            20
+        ],
+        "Transfers": [
+            0,
+            1
+        ],
+        "Chips Used": [
+            null,
+            null
+        ]
+    }
+]
