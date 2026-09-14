@@ -1,0 +1,750 @@
+[
+    {
+        "Team ID": 7359739,
+        "Total Points": 2261,
+        "Gameweek Points": [
+            86,
+            108,
+            55,
+            79
+        ],
+        "Transfers": [
+            0,
+            0,
+            2,
+            0
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 5185335,
+        "Total Points": 1944,
+        "Gameweek Points": [
+            66,
+            105,
+            57,
+            100
+        ],
+        "Transfers": [
+            0,
+            1,
+            0,
+            2
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 8586019,
+        "Total Points": 2147,
+        "Gameweek Points": [
+            57,
+            130,
+            37,
+            76
+        ],
+        "Transfers": [
+            0,
+            0,
+            0,
+            0
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 2954475,
+        "Total Points": 2302,
+        "Gameweek Points": [
+            58,
+            108,
+            43,
+            88
+        ],
+        "Transfers": [
+            0,
+            0,
+            0,
+            1
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 188843,
+        "Total Points": 2173,
+        "Gameweek Points": [
+            53,
+            108,
+            47,
+            89
+        ],
+        "Transfers": [
+            0,
+            0,
+            0,
+            2
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 3333447,
+        "Total Points": 2094,
+        "Gameweek Points": [
+            78,
+            80,
+            63,
+            72
+        ],
+        "Transfers": [
+            0,
+            0,
+            2,
+            0
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 7104480,
+        "Total Points": 2305,
+        "Gameweek Points": [
+            40,
+            120,
+            46,
+            82
+        ],
+        "Transfers": [
+            0,
+            0,
+            2,
+            1
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 127629,
+        "Total Points": 2268,
+        "Gameweek Points": [
+            48,
+            97,
+            51,
+            92
+        ],
+        "Transfers": [
+            0,
+            0,
+            2,
+            0
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 885731,
+        "Total Points": 2263,
+        "Gameweek Points": [
+            43,
+            113,
+            48,
+            83
+        ],
+        "Transfers": [
+            0,
+            0,
+            1,
+            2
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 5861321,
+        "Total Points": 2125,
+        "Gameweek Points": [
+            64,
+            68,
+            63,
+            89
+        ],
+        "Transfers": [
+            0,
+            1,
+            1,
+            1
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 7228670,
+        "Total Points": 2077,
+        "Gameweek Points": [
+            77,
+            80,
+            45,
+            78
+        ],
+        "Transfers": [
+            0,
+            1,
+            1,
+            1
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 5270,
+        "Total Points": 2120,
+        "Gameweek Points": [
+            53,
+            99,
+            40,
+            91
+        ],
+        "Transfers": [
+            0,
+            0,
+            2,
+            2
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 6868986,
+        "Total Points": 2173,
+        "Gameweek Points": [
+            60,
+            87,
+            45,
+            82
+        ],
+        "Transfers": [
+            0,
+            0,
+            0,
+            0
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 5762096,
+        "Total Points": 2096,
+        "Gameweek Points": [
+            53,
+            100,
+            55,
+            64
+        ],
+        "Transfers": [
+            0,
+            1,
+            0,
+            2
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 1188620,
+        "Total Points": 2279,
+        "Gameweek Points": [
+            59,
+            89,
+            52,
+            69
+        ],
+        "Transfers": [
+            0,
+            1,
+            1,
+            0
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 5200205,
+        "Total Points": 1889,
+        "Gameweek Points": [
+            41,
+            105,
+            47,
+            71
+        ],
+        "Transfers": [
+            0,
+            1,
+            0,
+            2
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 6787110,
+        "Total Points": 1859,
+        "Gameweek Points": [
+            54,
+            79,
+            63,
+            66
+        ],
+        "Transfers": [
+            0,
+            0,
+            1,
+            0
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 4252950,
+        "Total Points": 1829,
+        "Gameweek Points": [
+            62,
+            89,
+            39,
+            72
+        ],
+        "Transfers": [
+            0,
+            0,
+            1,
+            0
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 3538743,
+        "Total Points": 2023,
+        "Gameweek Points": [
+            53,
+            75,
+            64,
+            69
+        ],
+        "Transfers": [
+            0,
+            1,
+            2,
+            0
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 3945655,
+        "Total Points": 2203,
+        "Gameweek Points": [
+            56,
+            86,
+            50,
+            67
+        ],
+        "Transfers": [
+            0,
+            0,
+            2,
+            1
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 104197,
+        "Total Points": 2197,
+        "Gameweek Points": [
+            51,
+            79,
+            61,
+            65
+        ],
+        "Transfers": [
+            0,
+            1,
+            0,
+            0
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 8000481,
+        "Total Points": 1835,
+        "Gameweek Points": [
+            50,
+            73,
+            64,
+            68
+        ],
+        "Transfers": [
+            0,
+            0,
+            0,
+            3
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 8423169,
+        "Total Points": 1954,
+        "Gameweek Points": [
+            45,
+            85,
+            41,
+            84
+        ],
+        "Transfers": [
+            0,
+            1,
+            0,
+            0
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 7102642,
+        "Total Points": 2014,
+        "Gameweek Points": [
+            41,
+            85,
+            54,
+            74
+        ],
+        "Transfers": [
+            0,
+            1,
+            0,
+            1
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 6084627,
+        "Total Points": 1693,
+        "Gameweek Points": [
+            56,
+            65,
+            65,
+            68
+        ],
+        "Transfers": [
+            0,
+            0,
+            2,
+            1
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 8778858,
+        "Total Points": 1758,
+        "Gameweek Points": [
+            76,
+            74,
+            41,
+            62
+        ],
+        "Transfers": [
+            0,
+            1,
+            1,
+            0
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 2521924,
+        "Total Points": 2157,
+        "Gameweek Points": [
+            64,
+            76,
+            47,
+            61
+        ],
+        "Transfers": [
+            0,
+            0,
+            2,
+            0
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 3142411,
+        "Total Points": 1926,
+        "Gameweek Points": [
+            55,
+            69,
+            59,
+            63
+        ],
+        "Transfers": [
+            0,
+            1,
+            1,
+            1
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 8703894,
+        "Total Points": 1997,
+        "Gameweek Points": [
+            50,
+            92,
+            29,
+            73
+        ],
+        "Transfers": [
+            0,
+            0,
+            1,
+            3
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 6695649,
+        "Total Points": 1754,
+        "Gameweek Points": [
+            42,
+            76,
+            71,
+            50
+        ],
+        "Transfers": [
+            0,
+            0,
+            0,
+            2
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 4283920,
+        "Total Points": 1926,
+        "Gameweek Points": [
+            60,
+            53,
+            57,
+            71
+        ],
+        "Transfers": [
+            0,
+            0,
+            3,
+            1
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 2801667,
+        "Total Points": 2230,
+        "Gameweek Points": [
+            53,
+            80,
+            33,
+            80
+        ],
+        "Transfers": [
+            0,
+            1,
+            3,
+            1
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 4068354,
+        "Total Points": 1915,
+        "Gameweek Points": [
+            53,
+            82,
+            58,
+            38
+        ],
+        "Transfers": [
+            0,
+            1,
+            1,
+            1
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    },
+    {
+        "Team ID": 919768,
+        "Total Points": 2036,
+        "Gameweek Points": [
+            52,
+            64,
+            45,
+            63
+        ],
+        "Transfers": [
+            0,
+            1,
+            2,
+            3
+        ],
+        "Chips Used": [
+            null,
+            null,
+            null,
+            null
+        ]
+    }
+]
